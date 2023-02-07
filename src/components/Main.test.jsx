@@ -1,7 +1,7 @@
-import Main from "./Main";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CONFIG from "../config";
+import Main from "./Main";
 
 const choices = CONFIG.map((sport) => sport.sport);
 
@@ -12,8 +12,13 @@ test("initial render", async () => {
   const options = screen.getAllByRole("option");
 
   const toggle = screen.getByRole("checkbox");
+
+  //  TODO: See if we can avoid using a testId here
   const homeToggle = screen.getByTestId("home-toggle");
   const awayToggle = screen.getByTestId("away-toggle");
+
+  //  This will return an array with the elements. role="complentary"
+  const toggleButton = screen.getAllByRole("complementary");
 
   const homeHeading = screen.getByRole("heading", { name: "Home" });
   const awayHeading = screen.getByRole("heading", { name: "Away" });
@@ -35,6 +40,16 @@ test("initial render", async () => {
   expect(homeToggle).toBeInTheDocument();
   expect(awayToggle).toBeInTheDocument();
 
+  //  There are two ways to check if the home/away swtich are render
+  //  First is by chekcing individually
+  //    Hard coding
+  expect(toggleButton[0]).toBeInTheDocument();
+  expect(toggleButton[1]).toBeInTheDocument();
+  //    Automated
+  toggleButton.forEach((element) => expect(element).toBeInTheDocument());
+  //  Second to check the lenght of the array.
+  expect(toggleButton).toHaveLength(2);
+
   expect(homeHeading).toBeInTheDocument();
   expect(awayHeading).toBeInTheDocument();
 
@@ -55,7 +70,10 @@ it("renders the correct buttons whenever a sport is selected", async () => {
   const select = screen.getByRole("combobox");
 
   // Select the first actual choice (not the placeholder option)
-  await user.selectOptions(select, "⚽/🏒");
+  // TODO: Avoid hardcoding the selection. Instead use the first choice from the config.
+  const sportSelection = CONFIG[0].sport;
+  // await user.selectOptions(select, "⚽/🏒");
+  await user.selectOptions(select, sportSelection);
 
   const buttons = screen.getAllByRole("button");
 
