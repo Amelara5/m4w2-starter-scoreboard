@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Button from "../components/Buttons/Button";
 import { NumericalInput, Select } from "../components/Form";
 import CONFIG from "../config";
-function Setup({ setButtons, setPeriods, setTimePeriod, setGameOn }) {
+function Setup({ setButtons, setPeriods, setTimePerPeriod, setGameOn }) {
   return (
     <>
       <Select
@@ -20,7 +20,7 @@ function Setup({ setButtons, setPeriods, setTimePeriod, setGameOn }) {
         id="periods"
         placeholder="Number of Periods"
         handleBlur={(e) => {
-          setPeriods(e.target.value);
+          setPeriods(parseInt(e.target.value));
         }}
       />
 
@@ -28,7 +28,7 @@ function Setup({ setButtons, setPeriods, setTimePeriod, setGameOn }) {
         id="time"
         placeholder="Time per period? (minutes)"
         handleBlur={(e) => {
-          setTimePeriod(e.target.value);
+          setTimePerPeriod(parseInt(e.target.value));
         }}
       />
 
@@ -47,7 +47,7 @@ function Setup({ setButtons, setPeriods, setTimePeriod, setGameOn }) {
 Setup.propTypes = {
   setButtons: PropTypes.func.isRequired,
   setPeriods: PropTypes.func.isRequired,
-  setTimePeriod: PropTypes.func.isRequired,
+  setTimePerPeriod: PropTypes.func.isRequired,
   setGameOn: PropTypes.func.isRequired,
 };
 

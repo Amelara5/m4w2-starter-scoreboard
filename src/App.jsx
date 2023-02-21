@@ -6,7 +6,7 @@ function App() {
   const [gameOn, setGameOn] = useState(false);
   const [buttons, setButtons] = useState([]);
   const [periods, setPeriods] = useState(2);
-  const [currentPeriod, setCurrentPeriod] = useState(1);
+  const [timePerPeriod, setTimePerPeriod] = useState(1);
 
   return (
     <>
@@ -18,12 +18,16 @@ function App() {
       "
       >
         {gameOn ? (
-          <Display />
+          <Display
+            buttons={buttons}
+            periods={periods}
+            timePerPeriod={timePerPeriod}
+          />
         ) : (
           <Setup
             setButtons={setButtons}
             setPeriods={setPeriods}
-            setTimePeriod={setCurrentPeriod}
+            setTimePerPeriod={setTimePerPeriod}
             setGameOn={setGameOn}
           />
         )}
