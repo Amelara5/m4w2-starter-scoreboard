@@ -18,6 +18,6 @@ Button.defaultProps = {
 
 Button.propTypes = {
   colorClass: PropTypes.string,
-  text: PropTypes.number.isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   handleClick: PropTypes.func.isRequired,
 };
