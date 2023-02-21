@@ -1,4 +1,5 @@
-import Main from "./components/Main";
+import Display from "./routes/Display";
+import Setup from "./routes/Setup";
 
 function App() {
   return (
@@ -6,7 +7,8 @@ function App() {
       <h1 className="my-4 text-center text-3xl font-extrabold">
         Scoreboard App
       </h1>
-      <Main />
+      <Display />
+      <Setup />
     </>
   );
 }
