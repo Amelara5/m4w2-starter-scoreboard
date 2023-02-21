@@ -1,0 +1,48 @@
+import Button from "../components/Buttons/Button";
+import { NumericalInput, Select } from "../components/Form";
+import CONFIG from "../config";
+// import PropTypes from "prop-types"
+function Setup({ setButtons, setPeriods, setTimePeriod }) {
+  return (
+    <>
+      <Select
+        id="sport-select"
+        options={CONFIG.map((sport) => sport.sport)}
+        handleChange={(e) => {
+          const selectedSport = CONFIG.find(
+            (sport) => sport.sport === e.target.value
+          );
+          setButtons(selectedSport.buttons);
+        }}
+      />
+
+      <NumericalInput
+        id="periods"
+        placeholder="Number of Periods"
+        handleBlur={(e) => {
+          setPeriods(e.target.value);
+        }}
+      />
+
+      <NumericalInput
+        id="time"
+        placeholder="Time per period? (minutes)"
+        handleBlur={(e) => {
+          setTimePeriod(e.target.value);
+        }}
+      />
+
+      <Button
+        colorClass="bg-green-500"
+        text="Go"
+        handleClick={() => {
+          console.log("Click");
+        }}
+      />
+    </>
+  );
+}
+
+Setup.propTypes = {};
+
+export default Setup;
