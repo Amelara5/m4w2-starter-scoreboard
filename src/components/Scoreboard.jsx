@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import minutesAndSeconds from "../utils";
 
 export default function Scoreboard({
   homeScore,
@@ -27,8 +28,8 @@ export default function Scoreboard({
           <h2 className="text-2xl">Time</h2>
           <p className="text-4xl" data-testid="time">
             {/* TODO: Convert the time in seconds to minutes and seconds  */}
-            {/* {minutesAndSeconds(time)} */}
-            {timeRemaining}
+            {minutesAndSeconds(timeRemaining)}
+            {/* {timeRemaining} */}
           </p>
         </div>
       </div>
