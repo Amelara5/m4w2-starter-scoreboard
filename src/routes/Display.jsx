@@ -12,6 +12,10 @@ function Display({ buttons, periods, timePerPeriod }) {
   const [homeScore, setHomeScore] = useState(0);
   const [awayScore, setAwayScore] = useState(0);
   const [homeAway, setHomeAway] = useState("away");
+  const [timeRemaining, setTimeRemaining] = useState(
+    //Seconds to minutes
+    timePerPeriod * 60
+  );
 
   return (
     <>
@@ -35,7 +39,7 @@ function Display({ buttons, periods, timePerPeriod }) {
       <Scoreboard
         homeScore={homeScore}
         awayScore={awayScore}
-        minutes={timePerPeriod}
+        timeRemaining={timeRemaining}
         currentPeriod={periods}
       />
 
