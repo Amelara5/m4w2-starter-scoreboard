@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 export default function Scoreboard({
   homeScore,
   awayScore,
-  time,
+  timeRemaining,
   currentPeriod,
 }) {
   return (
@@ -28,7 +28,7 @@ export default function Scoreboard({
           <p className="text-4xl" data-testid="time">
             {/* TODO: Convert the time in seconds to minutes and seconds  */}
             {/* {minutesAndSeconds(time)} */}
-            {time}
+            {timeRemaining}
           </p>
         </div>
       </div>
@@ -46,13 +46,12 @@ export default function Scoreboard({
 Scoreboard.propTypes = {
   homeScore: PropTypes.number,
   awayScore: PropTypes.number,
-  time: PropTypes.number,
+  timeRemaining: PropTypes.number.isRequired,
   currentPeriod: PropTypes.number,
 };
 
 Scoreboard.defaultProps = {
   homeScore: 0,
   awayScore: 0,
-  time: 900,
   currentPeriod: 1,
 };
