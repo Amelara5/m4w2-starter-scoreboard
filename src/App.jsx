@@ -5,7 +5,7 @@ import Setup from "./routes/Setup";
 function App() {
   const [gameOn, setGameOn] = useState(false);
   const [buttons, setButtons] = useState([]);
-  const [periods, setPeriods] = useState(2);
+  const [periods, setPeriods] = useState(0);
   const [timePerPeriod, setTimePerPeriod] = useState(1);
 
   return (

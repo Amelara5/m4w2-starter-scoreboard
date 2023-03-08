@@ -12,6 +12,7 @@ function Display({ buttons, periods, timePerPeriod }) {
   const [homeScore, setHomeScore] = useState(0);
   const [awayScore, setAwayScore] = useState(0);
   const [homeAway, setHomeAway] = useState("away");
+  const [currentPeriod, setCurrentPeriod] = useState(1);
   const [timeRemaining, setTimeRemaining] = useState(
     // Seconds to minutes
     timePerPeriod * 60
@@ -52,7 +53,7 @@ function Display({ buttons, periods, timePerPeriod }) {
         homeScore={homeScore}
         awayScore={awayScore}
         timeRemaining={timeRemaining}
-        currentPeriod={periods}
+        currentPeriod={currentPeriod}
       />
 
       <div className="flex gap-x-8">
@@ -74,12 +75,21 @@ function Display({ buttons, periods, timePerPeriod }) {
         <Button
           colorClass={"bg-amber-500"}
           text={"Next period"}
-          handleClick={justAClick}
+          handleClick={() => {
+            if (periods > currentPeriod) {
+              setCurrentPeriod((prev) => prev + 1);
+              setTimeRemaining(timePerPeriod * 60);
+            }
+            // More optimal way
+            // setCurrentPeriod((prev) => (prev < periods ? prev + 1 : prev));
+          }}
         />
         <Button
           colorClass={"bg-red-500"}
           text={"Reset board"}
-          handleClick={justAClick}
+          handleClick={() => {
+            window.location.reload(false);
+          }}
         />
       </div>
     </>
