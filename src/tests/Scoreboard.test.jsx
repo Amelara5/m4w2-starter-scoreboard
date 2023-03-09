@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
-// import App from "../App";
 import Scoreboard from "../components/Scoreboard";
+// import App from "../App";
 
 // test("Create a snapshot test for App", () => {
 //   const appRender = render(<App />);
