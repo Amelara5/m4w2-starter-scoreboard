@@ -6,9 +6,9 @@ import { HomeAwaySwitch } from "../components/Form";
 import Scoreboard from "../components/Scoreboard";
 
 function Display({ buttons, periods, timePerPeriod }) {
-  function justAClick() {
-    console.log("Click");
-  }
+  // function justAClick() {
+  //   console.log("Click");
+  // }
   const [homeScore, setHomeScore] = useState(0);
   const [awayScore, setAwayScore] = useState(0);
   const [homeAway, setHomeAway] = useState("away");
