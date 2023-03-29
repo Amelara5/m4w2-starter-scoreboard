@@ -57,7 +57,6 @@ function Display({ buttons, periods, timePerPeriod }) {
       />
 
       <div className="flex gap-x-8">
-        {/* TODO: Add the colored buttons */}
         <Button
           colorClass={"bg-green-500"}
           text={"Start"}
