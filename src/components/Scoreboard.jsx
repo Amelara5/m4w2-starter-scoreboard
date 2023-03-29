@@ -29,7 +29,6 @@ export default function Scoreboard({
           <p className="text-4xl" data-testid="time">
             {/* TODO: Convert the time in seconds to minutes and seconds  */}
             {minutesAndSeconds(timeRemaining)}
-            {/* {timeRemaining} */}
           </p>
         </div>
       </div>
