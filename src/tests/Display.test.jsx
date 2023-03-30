@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
 import Display from "../routes/Display";
 
 test("inital render", () => {
@@ -12,19 +12,19 @@ test("inital render", () => {
 
 it("updates the Away score", async () => {
   const user = userEvent.setup();
-  render(<Display buttons={[1]} periods={3} timePerPeriod={12} />);
+  render(<Display buttons={[1, 2, 3]} periods={3} timePerPeriod={12} />);
 
   const awayScore = screen.getByTestId("away-score");
 
-  const awayBtn = screen.getByRole("button", { name: "1" });
+  const awayBtn = screen.getByRole("button", { name: "2" });
   await user.click(awayBtn);
 
-  expect(awayScore).toHaveTextContent(1);
+  expect(awayScore).toHaveTextContent(2);
 });
 
 it("updates the Home and Away score based on the toggles", async () => {
   const user = userEvent.setup();
-  render(<Display buttons={[0]} periods={2} timePerPeriod={3} />);
+  render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={3} />);
 
   const toggleButton = screen.getByRole("checkbox");
   const homeScore = screen.getByTestId("home-score");
@@ -42,9 +42,42 @@ it("updates the Home and Away score based on the toggles", async () => {
 
   expect(awayScore).toHaveTextContent(2);
   expect(homeScore).toHaveTextContent(1);
-  // console.log(toggleButton);
-  // console.log(homeScore);
-  // console.log(awayScore);
 });
 
-it("advances the period only up to the max periods", async () => {});
+it("advances the period only up to the max periods", async () => {
+  const user = userEvent.setup();
+  render(<Display buttons={[1, 2, 3, 6]} periods={4} timePerPeriod={15} />);
+
+  const periodNumber = screen.getByTestId("period");
+  const periodButton = screen.getByRole("button", { name: "Next period" });
+
+  await user.click(periodButton);
+  await user.click(periodButton);
+  await user.click(periodButton);
+  await user.click(periodButton);
+  await user.click(periodButton);
+  await user.click(periodButton);
+
+  expect(periodNumber).toHaveTextContent(4);
+});
+
+describe("Timer 🤡", () => {
+  beforeAll(() => {
+    vi.useFakeTimers();
+  });
+
+  test("timer reflects MM:SS accurately", async () => {
+    const user = userEvent.setup({ delay: null });
+    render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={10} />);
+  });
+
+  it("stops and restarts timer", async () => {
+    const user = userEvent.setup({ delay: null });
+    render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={10} />);
+  });
+
+  it("resets the time display when period is advanced", async () => {
+    const user = userEvent.setup({ delay: null });
+    render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={10} />);
+  });
+});
