@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 import Display from "../routes/Display";
@@ -69,15 +69,105 @@ describe("Timer 🤡", () => {
   test("timer reflects MM:SS accurately", async () => {
     const user = userEvent.setup({ delay: null });
     render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={10} />);
+
+    const startBtn = screen.getByRole("button", { name: "Start" });
+    const timeDisplay = screen.getByTestId("time");
+
+    await user.click(startBtn);
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("10:00");
+    });
+
+    act(() => {
+      // 30 seconds
+      vi.advanceTimersByTime(30000);
+    });
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("9:30");
+    });
+
+    act(() => {
+      // 6 more seconds
+      vi.advanceTimersByTime(6000);
+    });
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("9:24");
+    });
+
+    act(() => {
+      // 1 second left! ⏳
+      vi.advanceTimersByTime(563000);
+    });
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("0:01");
+    });
   });
 
   it("stops and restarts timer", async () => {
     const user = userEvent.setup({ delay: null });
     render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={10} />);
+
+    const startBtn = screen.getByRole("button", { name: "Start" });
+    const stopBtn = screen.getByRole("button", { name: "Stop" });
+    const timeDisplay = screen.getByTestId("time");
+
+    await user.click(startBtn);
+
+    act(() => {
+      // 30 seconds
+      vi.advanceTimersByTime(30000);
+    });
+
+    await user.click(stopBtn);
+
+    act(() => {
+      // 30 seconds
+      vi.advanceTimersByTime(30000);
+    });
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("9:30");
+    });
+
+    await user.click(startBtn);
+
+    act(() => {
+      // 6 more seconds
+      vi.advanceTimersByTime(6000);
+    });
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("9:24");
+    });
   });
 
   it("resets the time display when period is advanced", async () => {
     const user = userEvent.setup({ delay: null });
-    render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={10} />);
+    render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={3} />);
+
+    const startBtn = screen.getByRole("button", { name: "Start" });
+    const nextPeriodBtn = screen.getByRole("button", { name: "Next period" });
+    const timeDisplay = screen.getByTestId("time");
+
+    await user.click(startBtn);
+
+    act(() => {
+      // 30 seconds
+      vi.advanceTimersByTime(30000);
+    });
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("2:30");
+    });
+
+    await user.click(nextPeriodBtn);
+
+    await waitFor(() => {
+      expect(timeDisplay).toHaveTextContent("3:00");
+    });
   });
 });
