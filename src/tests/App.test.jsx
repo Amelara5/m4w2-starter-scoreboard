@@ -1,9 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
 import CONFIG from "../config";
-
-const choices = CONFIG.map((sport) => sport.sport);
 
 it("renders the correct buttons whenever a sport is selected", async () => {
   const user = userEvent.setup();
@@ -46,4 +44,23 @@ it("limits the period to the number of periods specified in the config", async (
   await user.click(nextPeriodBtn);
 
   expect(periodP).toHaveTextContent("2");
+});
+
+it("start with the correct time remaining", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+
+  const timeInput = screen.getByLabelText(/Time/i);
+  const goBtn = screen.getByRole("button", { name: /Go/i });
+
+  await user.type(timeInput, "5");
+  await user.click(goBtn);
+
+  const startBtn = await screen.findByRole("button", { name: /Start/i });
+  const timeRemaining = await screen.findByTestId("time");
+
+  await user.click(startBtn);
+  await waitFor(() => {
+    expect(timeRemaining).toHaveTextContent("5:00");
+  });
 });
