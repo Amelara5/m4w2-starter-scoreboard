@@ -26,3 +26,24 @@ test("renders App", () => {
   const rendered = render(<App />);
   expect(rendered).toMatchSnapshot();
 });
+
+it("limits the period to the number of periods specified in the config", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+
+  const periodInput = screen.getByLabelText(/Periods/i);
+  const goBtn = screen.getByRole("button", { name: /Go/i });
+
+  await user.type(periodInput, "2");
+  await user.click(goBtn);
+
+  const nextPeriodBtn = await screen.findByRole("button", {
+    name: /Next Period/i,
+  });
+  const periodP = await screen.findByTestId("period");
+
+  await user.click(nextPeriodBtn);
+  await user.click(nextPeriodBtn);
+
+  expect(periodP).toHaveTextContent("2");
+});
