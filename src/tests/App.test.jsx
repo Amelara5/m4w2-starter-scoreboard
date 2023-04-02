@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import CONFIG from "../config";
 import App from "../App";
+import CONFIG from "../config";
 
 const choices = CONFIG.map((sport) => sport.sport);
 
@@ -20,4 +20,9 @@ it("renders the correct buttons whenever a sport is selected", async () => {
   const buttons = screen.getAllByRole("button");
 
   expect(buttons).toHaveLength(CONFIG[0].buttons.length);
+});
+
+test("renders App", () => {
+  const rendered = render(<App />);
+  expect(rendered).toMatchSnapshot();
 });
