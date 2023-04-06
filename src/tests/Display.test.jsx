@@ -2,6 +2,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test, vi } from "vitest";
 import Display from "../routes/Display";
+import { setup } from "./setupTest";
 
 test("inital render", () => {
   const rendered = render(
@@ -11,8 +12,9 @@ test("inital render", () => {
 });
 
 it("updates the Away score", async () => {
-  const user = userEvent.setup();
-  render(<Display buttons={[1, 2, 3]} periods={3} timePerPeriod={12} />);
+  const { user } = setup(
+    <Display buttons={[1, 2, 3]} periods={3} timePerPeriod={12} />
+  );
 
   const awayScore = screen.getByTestId("away-score");
 
@@ -23,8 +25,9 @@ it("updates the Away score", async () => {
 });
 
 it("updates the Home and Away score based on the toggles", async () => {
-  const user = userEvent.setup();
-  render(<Display buttons={[1, 2, 3]} periods={2} timePerPeriod={3} />);
+  const { user } = setup(
+    <Display buttons={[1, 2, 3]} periods={2} timePerPeriod={3} />
+  );
 
   const toggleButton = screen.getByRole("checkbox");
   const homeScore = screen.getByTestId("home-score");
@@ -45,9 +48,9 @@ it("updates the Home and Away score based on the toggles", async () => {
 });
 
 it("advances the period only up to the max periods", async () => {
-  const user = userEvent.setup();
-  render(<Display buttons={[1, 2, 3, 6]} periods={4} timePerPeriod={15} />);
-
+  const { user } = setup(
+    <Display buttons={[1, 2, 3, 6]} periods={4} timePerPeriod={15} />
+  );
   const periodNumber = screen.getByTestId("period");
   const periodButton = screen.getByRole("button", { name: "Next period" });
 
